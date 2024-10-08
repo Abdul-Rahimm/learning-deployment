@@ -8,12 +8,16 @@ export default function Home() {
   function EditWord(str) {
     let words = str.replace(/_/g, " ");
     words = words.charAt(0).toUpperCase() + words.slice(1);
+
     for (let i = 1; i < words.length; i++) {
-      if (words[i] == " ")
-        words =
-          words.slice(0, i) +
-          words.charAt(i + 1).toUpperCase() +
-          words.slice(i + 2);
+      if (words[i] == " ") {
+        const tem = words.slice(0, i) + " ";
+        const tem2 = words.charAt(i + 1).toUpperCase();
+        const tem3 = words.slice(i + 2);
+
+        words = tem + tem2 + tem3;
+        // i++; // skip the next character to avoid double-capitalization
+      }
     }
     return words;
   }
@@ -27,16 +31,25 @@ export default function Home() {
           type="text"
           placeholder="input here..."
           value={value}
-          onChange={(e) => setValue(EditWord(e.target.value))}
+          onChange={(e) => setValue(e.target.value)}
         />
         <button
           className="border px-2 py-1 bg-blue-500 text-white"
           onClick={() => {
-            setList([...list, value]);
+            setList([...list, EditWord(value)]);
             setValue("");
           }}
         >
           Save
+        </button>
+        <button
+          className="border px-2 py-1 bg-blue-500 text-white"
+          onClick={() => {
+            setList([]);
+            setValue("");
+          }}
+        >
+          Clear
         </button>
       </div>
 
